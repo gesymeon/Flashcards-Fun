@@ -1,0 +1,37 @@
+<button
+  id="stored-flashcards"
+  class="js-stored-btn btn btn-outline-secondary btn-start"
+  type="button"
+>
+  Edit Stored Flashcards
+</button>
+
+<hr />
+
+<div id="originalForm" is="insertion-form-div"></div>
+<button class="js-add-btn btn btn-outline-secondary float-right" type="button">
+  <i class="fas fa-plus fa-2x"></i>
+</button>
+<button
+  id="start-play"
+  class="js-start-btn btn btn-outline-secondary btn-start"
+  type="button"
+>
+  Start!
+</button>
+
+<!-- TODO: somehow make this modal reusable -->
+<div
+  class="modal fade bd-example-modal-sm"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="mySmallModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content"></div>
+  </div>
+</div>
+
+<script type="module" src="./insertion-form-add-flashcard.js"></script>
+<script type="module" src="insertion-form.js"></script>

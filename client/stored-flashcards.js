@@ -1,12 +1,7 @@
 import Flashcard from "./flashcard.js";
 import DAO from "./flashcards.dao.js";
 
-//TODO: util functions => create flashcard ... + getinputsiblings
-
-//TODO: make forward browser button not working for this page, as loadflashcards cannot be called from
-// history api because function cannot be seiralized yet and thus cant be put inside the state object
-
-//TODO: autocomplete the stored terms , removes the need to remember everything
+import getInputSiblings from "./utils.js";
 
 export async function loadFlashcards() {
   let storedFlashcards = await DAO.getAllFlashcards();
@@ -20,8 +15,9 @@ export async function loadFlashcards() {
 
 $("center").on("click", ".js-delete-btn", async (e) => {
   let terms = getInputSiblings(e.target.parentNode.parentNode);
-  let flashcard = new Flashcard("German", terms);
+  let flashcard = new Flashcard("General", terms);
   let result = await DAO.deleteFlashcard(flashcard);
+
   if (result) {
     $(".modal-content").html("Flashcard removed successfully!");
     $(".modal-content").css("background-color", "green");
@@ -35,8 +31,9 @@ $("center").on("click", ".js-delete-btn", async (e) => {
 
 $("center").on("click", ".js-update-btn", async (e) => {
   let terms = getInputSiblings(e.target.parentNode.parentNode);
-  let flashcard = new Flashcard("German", terms);
+  let flashcard = new Flashcard("General", terms);
   let result = await DAO.updateFlashcard(flashcard);
+
   if (result) {
     $(".modal-content").html("Flashcard updated successfully!");
     $(".modal-content").css("background-color", "green");
@@ -48,12 +45,3 @@ $("center").on("click", ".js-update-btn", async (e) => {
   }
   $(".modal").modal("show");
 });
-
-function getInputSiblings(parent) {
-  let result = [];
-  const siblings = parent.childNodes;
-  for (let i = 0; i < siblings.length; ++i)
-    if (siblings[i].nodeName.toLowerCase() === "input")
-      result.push(siblings[i].value);
-  return result;
-}

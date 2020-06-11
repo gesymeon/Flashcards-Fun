@@ -1,6 +1,9 @@
 import Flashcard from "./flashcard.js";
 import db from "./flashcards.db.js";
 
+// TODO: External data object data model to specify what the database accepts and produces
+// TODO: Internal error logging for database failures ..
+
 class DAO {
   static fromObject(objectFlashcard) {
     return new Flashcard(objectFlashcard.category, objectFlashcard.terms);
@@ -21,16 +24,25 @@ class DAO {
 
   static async getAllFlashcards() {
     let flashcards = [];
-    let objectFlashcards = await db.getAll();
-    for (let objectFlashcard of objectFlashcards) {
-      flashcards.push(DAO.fromObject(objectFlashcard));
+    try {
+      let objectFlashcards = await db.getAll();
+      for (let objectFlashcard of objectFlashcards) {
+        flashcards.push(DAO.fromObject(objectFlashcard));
+      }
+    } catch (e) {
+      console.log(e);
     }
     return flashcards;
   }
 
   static async saveFlashcard(flashcard) {
     let toSave = DAO.toObject(flashcard);
-    let result = await db.addFlashcard(toSave);
+    let result;
+    try {
+      result = await db.addFlashcard(toSave);
+    } catch (e) {
+      console.log(e);
+    }
     return result;
   }
 
@@ -62,39 +74,6 @@ class DAO {
       console.log(e);
     }
     return result;
-  }
-
-  static canBeCloned(val) {
-    if (Object(val) !== val)
-      // Primitive value
-      return true;
-    switch (
-      {}.toString.call(val).slice(8, -1) // Class
-    ) {
-      case "Boolean":
-      case "Number":
-      case "String":
-      case "Date":
-      case "RegExp":
-      case "Blob":
-      case "FileList":
-      case "ImageData":
-      case "ImageBitmap":
-      case "ArrayBuffer":
-        return true;
-      case "Array":
-      case "Object":
-        return Object.keys(val).every((prop) => DAO.canBeCloned(val[prop]));
-      case "Map":
-        return (
-          [...val.keys()].every(DAO.canBeCloned) &&
-          [...val.values()].every(DAO.canBeCloned)
-        );
-      case "Set":
-        return [...val.keys()].every(DAO.canBeCloned);
-      default:
-        return false;
-    }
   }
 }
 

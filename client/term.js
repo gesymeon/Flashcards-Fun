@@ -1,16 +1,26 @@
-//TODO: terms must have their own placeholders.. these do not get autocompleted
+//TODO: terms must have their own placeholders/hint (in db table also).. so they can be autocompleted
 
 class Term {
   #content;
   #position;
+  #hint;
 
-  constructor(content, position) {
+  constructor(content, position, hint) {
     this.#content = content;
     this.#position = position;
+    this.#hint = hint;
   }
 
   get position() {
     return this.#position;
+  }
+
+  get hint() {
+    return this.#hint;
+  }
+
+  set hint(hint) {
+    this.#hint = hint;
   }
 
   get content() {

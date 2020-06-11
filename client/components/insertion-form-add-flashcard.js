@@ -1,4 +1,3 @@
-// Create a class for the element
 class insertionFormInputFlashCard extends HTMLDivElement {
   constructor() {
     // Always call super first in constructor

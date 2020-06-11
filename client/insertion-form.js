@@ -1,20 +1,27 @@
 import Flashcard from "./flashcard.js";
 import DAO from "./flashcards.dao.js";
+
+import getInputSiblings from "./utils.js";
+import purify from "./vendor/purify.es.js";
+
 import { loadFlashcards } from "./stored-flashcards.js";
 import { loadFlashcards as loadToTest } from "./start-play.js";
-
-import { loadContent } from "./index.js";
+import { loadContent } from "./router.js";
 
 $("center").on("click", "#start-play", () => {
   let id = event.target.id;
-  window.history.pushState({ id }, "start play", "/start-play.html");
-  loadContent(id, loadToTest);
+  window.history.pushState(
+    { id, avoidOnBack: true },
+    "start play",
+    "/start-play.html"
+  );
+  loadContent(id, loadToTest, "General");
 });
 
 $("center").on("click", "#stored-flashcards", () => {
   let id = event.target.id;
   window.history.pushState(
-    { id },
+    { id, avoidOnBack: true },
     "Stored flashcards",
     "/stored-flashcards.html"
   );
@@ -31,14 +38,16 @@ $("center").on("click", ".js-remove-btn", (e) => {
 
 $("center").on("click", ".js-save-btn", async (e) => {
   let inputTerms = getInputSiblings(e.target.parentNode.parentNode);
+  inputTerms = inputTerms.map((term) => {
+    return purify.sanitize(term);
+  });
   if (inputTerms[0] === "" || inputTerms[1] === "") {
     $(".modal-content").html("Please fill all the term fields");
     $(".modal-content").css("background-color", "red");
     $(".modal").modal("show");
     return;
   }
-
-  let flashcard = new Flashcard("German", inputTerms);
+  let flashcard = new Flashcard("General", inputTerms);
   let result = await DAO.saveFlashcard(flashcard);
 
   if (result > 0) {
@@ -51,12 +60,3 @@ $("center").on("click", ".js-save-btn", async (e) => {
   }
   $(".modal").modal("show");
 });
-
-function getInputSiblings(node) {
-  let result = [];
-  const siblings = node.childNodes;
-  for (let i = 0; i < siblings.length; ++i)
-    if (siblings[i].nodeName.toLowerCase() === "input")
-      result.push(siblings[i].value);
-  return result;
-}

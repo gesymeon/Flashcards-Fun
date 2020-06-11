@@ -1,12 +1,13 @@
-import { loadContent } from "./index.js";
+import { loadContent } from "./router.js";
 
-export function updateScore() {
-  $("h2").html(
-    "Your score is: " +
-      window.history.state.correctAnswers +
-      "/" +
-      window.history.state.length
-  );
+import { loadFlashcards as loadToTest } from "./start-play.js";
+
+let testedCategory;
+
+export function updateScore(args) {
+  const [correctAnswers, numOfFlashcards, flashcardsCategory] = args;
+  testedCategory = flashcardsCategory;
+  $("h2").html("Your score is: " + correctAnswers + "/" + numOfFlashcards);
 }
 
 $("center").on("click", "#toMainPage", () => {
@@ -16,5 +17,5 @@ $("center").on("click", "#toMainPage", () => {
 
 $("center").on("click", "#replay", () => {
   window.history.pushState({}, "start play", "/start-play.html");
-  loadContent("start-play");
+  loadContent("start-play", loadToTest, testedCategory);
 });

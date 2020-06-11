@@ -1,4 +1,4 @@
-//TODO: terms must have their own placeholders.. these do not get autocompleted
+//TODO: terms must have their own placeholders (in db table also).. so they can be autocompleted
 
 class Term {
   #content;

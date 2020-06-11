@@ -1,7 +1,6 @@
 import DAO from "./flashcards.dao.js";
-import { loadContent } from "./index.js";
-
-//$("document").ready(loadFlashcards);
+import { loadContent } from "./router.js";
+import { updateScore } from "./results-page.js";
 
 let answer, currentFlashcard;
 let correctAnswers = 0;
@@ -10,8 +9,8 @@ let flashcards = [];
 
 $("center").on("keyup", "input", (e) => {
   if (e.keyCode === 13) {
-    //TODO: sanitize?
     answer = $("input").val();
+    if (!answer) return;
     compareAnswer(answer);
   }
 });
@@ -20,13 +19,14 @@ export async function loadFlashcards() {
   index = 0;
   correctAnswers = 0;
 
-  flashcards = await DAO.retrieveFlashcardsByCategory("German");
+  flashcards = await DAO.retrieveFlashcardsByCategory("General");
   if (!flashcards.length) {
-    $("h2").html("Please create some flashcards first!");
-    $("h1").html("No flashcards found").css("color", "red");
+    $("h1").html("Please create some flashcards first!");
+    $("h2").html("No flashcards found").css("color", "red");
     $(".input-group").css("display", "none");
     return;
   }
+
   currentFlashcard = flashcards[0];
   updateView(currentFlashcard);
 }
@@ -50,6 +50,7 @@ function compareAnswer(answer) {
 
 function nextFlashcard() {
   $(".js-correct-answers").html(correctAnswers + "/" + flashcards.length);
+  $(".js-correct-answers").css("font-weight", "bold");
   if (index < flashcards.length - 1) {
     currentFlashcard = flashcards[++index];
     updateView(currentFlashcard);
@@ -60,9 +61,13 @@ function nextFlashcard() {
 
 function navigateToResults() {
   window.history.pushState(
-    { correctAnswers, length: flashcards.length },
+    { avoidOnBack: true },
     "results page",
     "/results-page.html"
   );
-  loadContent("results-page");
+  loadContent("results-page", updateScore, [
+    correctAnswers,
+    flashcards.length,
+    "General",
+  ]);
 }

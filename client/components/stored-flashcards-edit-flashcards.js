@@ -60,7 +60,7 @@ class editFormFlashCard extends HTMLDivElement {
       if (input.trim() === "") {
         secondTerm.setAttribute("value", this.getAttribute("data-target"));
         input = this.getAttribute("data-target");
-        //TODO: find out why this is needed and secondTerm.setAttribute is not enough
+
         e.target.value = input;
       }
 

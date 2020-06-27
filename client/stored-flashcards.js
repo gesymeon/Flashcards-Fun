@@ -8,7 +8,7 @@ export async function loadFlashcards() {
   for (let flashcard of storedFlashcards)
     $("center").append(
       $(
-        `<div is='edit-form-div' data-source='${flashcard.terms[0].content.content}' data-target='${flashcard.terms[1].content.content}'>`
+        `<div is='edit-form-div' data-source='${flashcard.terms[0].content}' data-target='${flashcard.terms[1].content}'>`
       )
     );
 }

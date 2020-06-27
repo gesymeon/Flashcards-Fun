@@ -2,12 +2,11 @@ import DAO from "./flashcards.dao.js";
 import { loadContent } from "./router.js";
 import { updateScore } from "./results-page.js";
 
-let answer, currentFlashcard;
+let answer, currentFlashcard, initialNumberOfFlashcards;
 let correctAnswers = 0;
-let index = 0;
 let flashcards = [];
 
-$("center").on("keyup", "input", (e) => {
+$("center").on("keyup", "#givenAnswer", (e) => {
   if (e.keyCode === 13) {
     answer = $("input").val();
     if (!answer) return;
@@ -16,7 +15,6 @@ $("center").on("keyup", "input", (e) => {
 });
 
 export async function loadFlashcards() {
-  index = 0;
   correctAnswers = 0;
 
   flashcards = await DAO.retrieveFlashcardsByCategory("General");
@@ -27,19 +25,20 @@ export async function loadFlashcards() {
     return;
   }
 
-  currentFlashcard = flashcards[0];
+  initialNumberOfFlashcards = flashcards.length;
+  currentFlashcard = getRandomFlashcard();
   updateView(currentFlashcard);
 }
 
 function updateView(flashcard) {
   $("h2").html("Category: " + flashcard.category);
-  $("h1").html(flashcard.terms[0].content.content);
+  $("h1").html(flashcard.terms[0].content);
   $("input").css("background-color", "white");
   $("input").val("");
 }
 
 function compareAnswer(answer) {
-  if (!answer.localeCompare(currentFlashcard.terms[1].content.content)) {
+  if (!answer.localeCompare(currentFlashcard.terms[1].content)) {
     correctAnswers++;
     $("input").css("background-color", "green");
   } else {
@@ -49,14 +48,21 @@ function compareAnswer(answer) {
 }
 
 function nextFlashcard() {
-  $(".js-correct-answers").html(correctAnswers + "/" + flashcards.length);
+  $(".js-correct-answers").html(
+    correctAnswers + "/" + initialNumberOfFlashcards
+  );
   $(".js-correct-answers").css("font-weight", "bold");
-  if (index < flashcards.length - 1) {
-    currentFlashcard = flashcards[++index];
+  if (flashcards.length) {
+    currentFlashcard = getRandomFlashcard();
     updateView(currentFlashcard);
   } else {
     navigateToResults();
   }
+}
+
+function getRandomFlashcard() {
+  let random = Math.floor(Math.random() * flashcards.length);
+  return flashcards.splice(random, 1)[0];
 }
 
 function navigateToResults() {
@@ -67,7 +73,7 @@ function navigateToResults() {
   );
   loadContent("results-page", updateScore, [
     correctAnswers,
-    flashcards.length,
+    initialNumberOfFlashcards,
     "General",
   ]);
 }

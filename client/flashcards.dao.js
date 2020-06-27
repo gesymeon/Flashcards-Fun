@@ -37,7 +37,10 @@ class DAO {
 
   static async saveFlashcard(flashcard) {
     let toSave = DAO.toObject(flashcard);
+<<<<<<< HEAD
 
+=======
+>>>>>>> a346f9db458a6324241dfadd1686fa92df5a6829
     let result;
     try {
       result = await db.addFlashcard(toSave);

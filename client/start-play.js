@@ -2,7 +2,11 @@ import DAO from "./flashcards.dao.js";
 import { loadContent } from "./router.js";
 import { updateScore } from "./results-page.js";
 
+<<<<<<< HEAD
 let answer, currentFlashcard, initialNumberOfFlashcards;
+=======
+let answer, currentFlashcard;
+>>>>>>> a346f9db458a6324241dfadd1686fa92df5a6829
 let correctAnswers = 0;
 let flashcards = [];
 
@@ -25,8 +29,12 @@ export async function loadFlashcards() {
     return;
   }
 
+<<<<<<< HEAD
   initialNumberOfFlashcards = flashcards.length;
   currentFlashcard = getRandomFlashcard();
+=======
+  currentFlashcard = flashcards[0];
+>>>>>>> a346f9db458a6324241dfadd1686fa92df5a6829
   updateView(currentFlashcard);
 }
 
@@ -48,12 +56,19 @@ function compareAnswer(answer) {
 }
 
 function nextFlashcard() {
+<<<<<<< HEAD
   $(".js-correct-answers").html(
     correctAnswers + "/" + initialNumberOfFlashcards
   );
   $(".js-correct-answers").css("font-weight", "bold");
   if (flashcards.length) {
     currentFlashcard = getRandomFlashcard();
+=======
+  $(".js-correct-answers").html(correctAnswers + "/" + flashcards.length);
+  $(".js-correct-answers").css("font-weight", "bold");
+  if (index < flashcards.length - 1) {
+    currentFlashcard = flashcards[++index];
+>>>>>>> a346f9db458a6324241dfadd1686fa92df5a6829
     updateView(currentFlashcard);
   } else {
     navigateToResults();
@@ -73,7 +88,11 @@ function navigateToResults() {
   );
   loadContent("results-page", updateScore, [
     correctAnswers,
+<<<<<<< HEAD
     initialNumberOfFlashcards,
+=======
+    flashcards.length,
+>>>>>>> a346f9db458a6324241dfadd1686fa92df5a6829
     "General",
   ]);
 }

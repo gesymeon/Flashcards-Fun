@@ -2,6 +2,11 @@ import Flashcard from "./flashcard.js";
 import DAO from "./flashcards.dao.js";
 
 import getInputSiblings from "./utils.js";
+<<<<<<< HEAD
+=======
+
+//TODO: autocomplete the stored terms, removes the need to remember everything already changed
+>>>>>>> a346f9db458a6324241dfadd1686fa92df5a6829
 
 export async function loadFlashcards() {
   let storedFlashcards = await DAO.getAllFlashcards();

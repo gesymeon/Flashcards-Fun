@@ -25,6 +25,7 @@ $("center").on("click", "#stored-flashcards", () => {
     "Stored flashcards",
     "/stored-flashcards.html"
   );
+
   loadContent(id, loadFlashcards);
 });
 

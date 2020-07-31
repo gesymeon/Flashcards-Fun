@@ -1,3 +1,4 @@
+//Could not be saved in indexDB as it is an ES6 class
 //TODO: terms must have their own placeholders (in db table also).. so they can be autocompleted
 
 class Term {

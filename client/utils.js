@@ -7,6 +7,7 @@ export default function getInputSiblings(node) {
   return result;
 }
 
+//found in SO, does not support the case where val is of type ES6 class though..
 export function canBeCloned(val) {
   if (Object(val) !== val)
     // Primitive value

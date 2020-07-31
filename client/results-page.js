@@ -6,13 +6,7 @@ let testedCategory;
 
 export function updateScore(args) {
   const [correctAnswers, numOfFlashcards, flashcardsCategory] = args;
-<<<<<<< HEAD
   testedCategory = flashcardsCategory;
-=======
-
-  testedCategory = flashcardsCategory;
-
->>>>>>> a346f9db458a6324241dfadd1686fa92df5a6829
   $("h2").html("Your score is: " + correctAnswers + "/" + numOfFlashcards);
 }
 

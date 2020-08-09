@@ -1,0 +1,21 @@
+.jumbotron-fluid {
+  background-image: url("../assets/images/birds.jpg");
+  background-size: cover;
+  height: 100vh;
+}
+
+.container {
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-insertion-form {
+  display: inline-block;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+div.modal-content {
+  text-align: center;
+}

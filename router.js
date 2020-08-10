@@ -1,3 +1,5 @@
+import { path } from "environment.ts";
+
 $(document).ready(function () {
   window.history.pushState(
     { id: "landing-page" },
@@ -10,20 +12,26 @@ $(document).ready(function () {
 export function loadContent(id, callback, args) {
   switch (id) {
     case "guestplay":
-      $(".js-router").load("/insertion-form.html");
+      $(".js-router").load(path + "/insertion-form.html");
       break;
     case "start-play":
-      $(".js-router").load("/start-play.html", callback.bind(null, [args]));
+      $(".js-router").load(
+        path + "/start-play.html",
+        callback.bind(null, [args])
+      );
       break;
     case "stored-flashcards":
-      $(".js-router").load("/stored-flashcards.html", callback);
+      $(".js-router").load(path + "/stored-flashcards.html", callback);
       break;
     case "results-page":
-      $(".js-router").load("/results-page.html", callback.bind(null, args));
+      $(".js-router").load(
+        path + "/results-page.html",
+        callback.bind(null, args)
+      );
       break;
     case "landing-page":
     default:
-      $(".js-router").load("/landing-page.html");
+      $(".js-router").load(path + "/landing-page.html");
   }
 }
 

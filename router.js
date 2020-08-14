@@ -1,4 +1,4 @@
-import { path } from "environment.ts";
+import { path } from "./environment.ts";
 
 $(document).ready(function () {
   window.history.pushState(
